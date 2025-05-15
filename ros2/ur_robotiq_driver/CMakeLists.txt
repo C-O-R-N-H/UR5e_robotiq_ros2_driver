@@ -5,7 +5,12 @@ find_package(ament_cmake REQUIRED)
 find_package(ament_cmake_python REQUIRED)
 
 install(
-  DIRECTORY launch urdf
+  PROGRAMS src/robotiq_hand_e_driver.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+install(
+  DIRECTORY launch
   DESTINATION share/${PROJECT_NAME}
 )
 
