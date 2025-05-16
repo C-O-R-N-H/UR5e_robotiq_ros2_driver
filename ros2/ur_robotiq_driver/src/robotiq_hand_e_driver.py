@@ -3,7 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
-import pyRobotiqGripper
+from pyRobotiqGripper import RobotiqGripper
 
 class RobotiqHandEDriver(Node):
     """
@@ -21,7 +21,7 @@ class RobotiqHandEDriver(Node):
         
         # Initialize the gripper
         try:
-            self.gripper = pyRobotiqGripper.RobotiqGripper()
+            self.gripper = RobotiqGripper()
             self.get_logger().info('Connected to Robotiq gripper')
             
             # Activate the gripper

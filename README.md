@@ -41,7 +41,7 @@ ping 192.168.1.102
 
 On your device, begin bu installing the UR dependencies:
 ```bash
-sudo apt install ros-humble-ur-client-library
+sudo apt install ros-humble-ur-client-library &&
 sudo apt-get install ros-humble-ur
 ```
 You can then clone the repo and build:
@@ -85,13 +85,14 @@ ls /dev/tty*
 ```
 This will show a list of devices with a new one, likely `/dev/ttyUSB0` or similar. This package does scan for teh device, however, its still useful to know. Begin by installing some required packages:
 ```bash
-python -m pip install minimalmodbus
+python3 -m pip install minimalmodbus &&
 sudo apt install mbpoll
 ```
 You can then enable dialout (essentially allow for serial com through the USB ports):
 ```bash
 sudo usermod -a -G dialout $USER
 ```
+After running this you need to reboot your system to take effect.
 Using the following command essentially pings the gripper. Each ping the light should flash blue before returning to red. This is set up for USB0 so make sure to change that if your device is different:
 ```bash
 mbpoll -m rtu -a 9 -b 115200 -P none -d 8 -s 1 /dev/ttyUSB0
