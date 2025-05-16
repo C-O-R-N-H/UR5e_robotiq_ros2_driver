@@ -111,6 +111,7 @@ You can launch the hand driver using:
 ```bash
 ros2 launch ur_robotiq_driver hand_e.launch.py
 ```
+If this node has an import error it is not finding the module that is right next to it. A solution would be to turn the module into a package and install it with pip but that sounds like a you problem :).
 With this active you can test the open and close using:
 ```bash
 ros2 topic pub /gripper_command std_msgs/msg/String "data: 'open'"
