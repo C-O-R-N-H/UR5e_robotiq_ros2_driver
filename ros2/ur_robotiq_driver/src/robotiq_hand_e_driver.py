@@ -43,30 +43,55 @@ class RobotiqHandEDriver(Node):
         self.get_logger().info('Subscribed to /gripper_command topic')
         
         self.get_logger().info('Robotiq Hand-E Driver is ready')
-    
+
     def gripper_command_callback(self, msg):
         """
         Callback function for gripper command messages.
-        
+
         Args:
-            msg (String): Command message. Should be either "open" or "close"
+            msg (String): Command message in the format "command[:speed][:force]"
+                        e.g., "open:200:150", "close::100", "open::"
         """
-        command = msg.data.lower()
-        
         try:
+            parts = msg.data.strip().lower().split(':')
+            command = parts[0]
+
+            # Default values
+            speed = 255
+            force = 255
+
+            # Parse speed and force if present
+            if len(parts) > 1 and parts[1]:
+                try:
+                    speed = int(parts[1])
+                    if not 1 <= speed <= 255:
+                        raise ValueError("Speed must be between 1 and 255")
+                except ValueError as e:
+                    self.get_logger().warn(f"Ignoring invalid speed '{parts[1]}': {e}")
+                    speed = None
+
+            if len(parts) > 2 and parts[2]:
+                try:
+                    force = int(parts[2])
+                    if not 1 <= force <= 255:
+                        raise ValueError("Force must be between 1 and 255")
+                except ValueError as e:
+                    self.get_logger().warn(f"Ignoring invalid force '{parts[2]}': {e}")
+                    force = None
+
             if command == "open":
-                self.get_logger().info('Opening gripper')
-                self.gripper.open()
+                self.get_logger().info(f'Opening gripper with speed={speed}, force={force}')
+                self.gripper.open(speed=speed, force=force)
                 self.get_logger().info('Gripper opened')
-                
+
             elif command == "close":
-                self.get_logger().info('Closing gripper')
-                self.gripper.close()
+                self.get_logger().info(f'Closing gripper with speed={speed}, force={force}')
+                self.gripper.close(speed=speed, force=force)
                 self.get_logger().info('Gripper closed')
-                
+
             else:
                 self.get_logger().warn(f'Unknown command: {command}. Expected "open" or "close"')
-                
+
         except Exception as e:
             self.get_logger().error(f'Failed to execute gripper command: {str(e)}')
 
