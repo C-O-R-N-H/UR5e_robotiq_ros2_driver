@@ -120,7 +120,7 @@ and
 ```bash
 ros2 topic pub /gripper_command std_msgs/msg/String "data: 'close::'"
 ```
-Note: the command is "'command':<speed>:<force>" where speed and force range from 1-255
+Note: the command is "'command':'speed':'force'" where speed and force range from 1-255
 If this works, congrats you are 90% of the way there. For finer control, you can modify/add to this drive to be able to set force or position, all of which are possible using the gripper package.
 
 ## Bringing it together
