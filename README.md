@@ -114,13 +114,13 @@ ros2 launch ur_robotiq_driver hand_e.launch.py
 If this node has an import error it is not finding the module that is right next to it. A solution would be to turn the module into a package and install it with pip but that sounds like a you problem :).
 With this active you can test the open and close using:
 ```bash
-ros2 topic pub /gripper_command std_msgs/msg/String "data: 'open'"
+ros2 topic pub /gripper_command std_msgs/msg/String "data: 'open::'"
 ```
 and
 ```bash
-ros2 topic pub /gripper_command std_msgs/msg/String "data: 'close'"
+ros2 topic pub /gripper_command std_msgs/msg/String "data: 'close::'"
 ```
-
+Note: the command is "'command':<speed>:<force>" where speed and force range from 1-255
 If this works, congrats you are 90% of the way there. For finer control, you can modify/add to this drive to be able to set force or position, all of which are possible using the gripper package.
 
 ## Bringing it together
